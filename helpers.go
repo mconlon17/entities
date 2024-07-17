@@ -290,7 +290,7 @@ func WriteTriples(f *os.File, triples [][3]string) {
 	}
 }
 
-func SaveData() {
+func SaveEntities() {
     f, err := os.Create("triples.nt")
     if err != nil {
         log.Fatal(err)

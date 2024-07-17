@@ -1,5 +1,7 @@
 # Entities for data management in GO
 
+**This is early work**
+
 The idea is simple enough -- design some entities -- structs in Go -- with common
 names, common slots, and a common pointer architecture to replicate the kinds of data
 needs of the Semantic Web.  Provide methods for loading and unloading the structures
