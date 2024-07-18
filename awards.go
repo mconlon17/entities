@@ -31,17 +31,17 @@ type Award struct {
 	AwardDate *Date
 }
 
-func NewAward(t string, d string) *Award {
+func NewAward(t string, d string) (*Award,error) {
 	p := new(Award)
 	p.Key = makeKey("Award")
 	_,ok := AwardTypeSet[t]
 	if !ok {
 		err := errors.New("Unknown award type: "+t)
-		fmt.Println(err)
+		return nil,err
 	}
 	p.AwardType = t
 	p.Title = d
-	return p
+	return p, nil
 }
 
 func (a *Award) Triples () [][3]string {

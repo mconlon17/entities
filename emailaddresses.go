@@ -1,25 +1,30 @@
 package entities
 
-// add regex check to email adress text
-
-// ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ 
-
-import (
+import(
+	"errors"
 	"fmt"
+	"regexp"
 )
 	
 var _ = fmt.Println // remove after test
+var r = regexp.MustCompile(`^(?P<Name>[a-zA-Z0-9_\-\.]+)@(?P<Address>[a-zA-Z0-9_\-\.]+)\.(?P<Domain>[a-zA-Z]{2,5})$`)
 	
 type EmailAddress struct {
 	Key *Key
 	EmailAddressText string
 }
 
-func NewEmailAddress(e string) *EmailAddress {
+func NewEmailAddress(e string) (*EmailAddress, error) {
 	p := new(EmailAddress)
 	p.Key = makeKey("EmailAddress")
-	p.EmailAddressText = e
-	return p
+	u := r.FindStringSubmatch(e)
+	if len(u) == 4 {
+		p.EmailAddressText = e
+		return p,nil
+	} else {
+		err := errors.New("Invalid email address: " + e)
+		return nil,err
+	}
 }
 
 func (a *EmailAddress) Triples () [][3]string {

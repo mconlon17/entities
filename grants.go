@@ -43,23 +43,23 @@ func (a *Grant) setAmount(n float64) {
 	}
 }
 
-func NewGrant(ty string, ti string) *Grant {
+func NewGrant(ty string, ti string) (*Grant, error) {
 	p := new(Grant)
 	p.Key = makeKey("Grant")
 	_,ok := GrantTypeSet[ty]
 	if !ok {
 		err := errors.New("Unknown grant type: "+ty)
-		fmt.Println(err)
+		return nil, err
 	}
 	p.GrantType = ty
 	p.Title = ti
-	return p
+	return p, nil
 }
 
-func NewResearchGrant(n string) *Grant {return NewGrant("Research Grant", n)}
-func NewTeachingGrant(n string) *Grant {return NewGrant("Teaching Grant", n)}
-func NewServiceGrant(n string) *Grant {return NewGrant("Service Grant", n)}
-func NewUnrestrictedGrant(n string) *Grant {return NewGrant("Unrestricted Grant", n)}
+func NewResearchGrant(n string) (*Grant,error) {return NewGrant("Research Grant", n)}
+func NewTeachingGrant(n string) (*Grant,error) {return NewGrant("Teaching Grant", n)}
+func NewServiceGrant(n string) (*Grant,error) {return NewGrant("Service Grant", n)}
+func NewUnrestrictedGrant(n string) (*Grant,error) {return NewGrant("Unrestricted Grant", n)}
 
 func (a *Grant) Triples () [][3]string {
 	var t [][3]string

@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"errors"
 	"fmt"
 )
 	
@@ -26,13 +27,39 @@ type Course struct {
 	CourseOrganization *Organization
 }
 
-func NewCourse(nu string, nm string) *Course {
+func NewCourse(nt string, nu string, nm string) (*Course,error) {
 	p := new(Course)
 	p.Key = makeKey("Course")
-	p.CourseType = "AcademicCourse"
-	p.CourseNumber = nu
-	p.CourseTitle = nm
-	return p
+	_, ok := CourseTypeSet[nt]
+	if ok {
+		p.CourseType = nt
+		p.CourseNumber = nu
+		p.CourseTitle = nm
+		return p, nil
+	} else {
+		err := errors.New("Unknown course type: " + nt)
+		return nil, err
+	}
+}
+
+func NewAcademicCourse(nu string, nm string)  (*Course,error) {
+	p,e := NewCourse("AcademicCourse",nu,nm)
+	return p,e
+}
+
+func NewShortCourse(nu string, nm string)  (*Course,error) {
+	p,e := NewCourse("ShortCourse",nu,nm)
+	return p,e
+}
+
+func NewSeminar(nu string, nm string)  (*Course,error) {
+	p,e := NewCourse("Seminar",nu,nm)
+	return p,e
+}
+
+func NewThesisAdvising(nu string, nm string)  (*Course,error) {
+	p,e := NewCourse("ThesisAdvising",nu,nm)
+	return p,e
 }
 
 func (a *Course) Triples () [][3]string {

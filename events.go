@@ -31,24 +31,24 @@ type Event struct {
 	Attendees []*Person
 }
 
-func NewEvent(t string, n string) *Event {
+func NewEvent(t string, n string) (*Event, error) {
 	p := new(Event)
 	p.Key = makeKey("Event")
 	_,ok := EventTypeSet[t]
 	if !ok {
 		err := errors.New("Unknown Event type: " + t)
-		fmt.Println(err)
+		return nil, err
 	}
 	p.EventType = t
 	p.Name = n
-	return p
+	return p,nil
 }
 
-func NewConference(n string) *Event { return NewEvent("Conference", n) }
-func NewSymposium(n string) *Event { return NewEvent("Symposium", n) }
-func NewWorkshop(n string) *Event { return NewEvent("Workshop", n) }
-func NewFundraiser(n string) *Event { return NewEvent("Fundraiser", n) }
-func NewMeeting(n string) *Event { return NewEvent("Meeting", n) }
+func NewConference(n string) (*Event,error) { return NewEvent("Conference", n) }
+func NewSymposium(n string) (*Event,error) { return NewEvent("Symposium", n) }
+func NewWorkshop(n string) (*Event,error) { return NewEvent("Workshop", n) }
+func NewFundraiser(n string) (*Event,error) { return NewEvent("Fundraiser", n) }
+func NewMeeting(n string) (*Event,error) { return NewEvent("Meeting", n) }
 
 func (a *Event) Triples () [][3]string {
 	var t [][3]string

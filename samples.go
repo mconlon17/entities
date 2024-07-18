@@ -6,9 +6,10 @@ func SampleData() {
 	u1 := NewURL("Orcid","https://orcid.org/0000-0002-1304-8447")
 	URLs =[]*URL{u1}
 	
-	course1 := NewCourse("STA5106", "Research Data Management")
+	course1,_ := NewCourse("AcademicCourse","STA5106", "Research Data Management")
 	course1.CourseDescription = "Research projects collect data from which to create evidence regarding scientific hypotheses. This course will show you how."
-	Courses = []*Course{course1}
+	course2,_ := NewAcademicCourse("PMT", "Statistical Methods for Pharmacy")
+	Courses = []*Course{course1,course2}
 	
 	c1 := NewConcept("Informatics")
 	c2 := NewConcept("Biostatistics")
@@ -42,9 +43,9 @@ func SampleData() {
 	a1 := NewAddress("6715 NW 67th Ave", l1, "32653")
 	Addresses = []*Address{a1}
 	
-	e1 := NewEmailAddress("conlon.m@gmail.com")
-	e2 := NewEmailAddress("mconlon@ufl.edu")
-	e3 := NewEmailAddress("cpb@ufl.edu")
+	e1,_ := NewEmailAddress("conlon.m@gmail.com")
+	e2,_ := NewEmailAddress("mconlon@ufl.edu")
+	e3,_ := NewEmailAddress("cpb@ufl.edu")
 	EmailAddresses = []*EmailAddress{e1,e2,e3}
 	
 	d1, _ := NewDate("1953-06-08")
@@ -57,10 +58,11 @@ func SampleData() {
 	d8, _ := NewYearMonth("1982-05")
 	d9, _ := NewDate("2015-05-16")
 	d10, _ := NewDate("1980-09-03")
-	d11, _ := NewDateTime("2024-06-11 18:00")
+	d11, _ := NewDateTime("2024-06-11 18:00:00")
 	Dates = []*Date{d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11}
 	
 	o1 := NewUniversity("University of Florida")
+	course2.CourseOrganization = o1
 	o2 := NewUniversity("Bucknell University")
 	o3 := NewOrganization("Company", "Wiley and Sons")
 	o4 := NewOrganization("Company", "Elsevier")
@@ -94,28 +96,28 @@ func SampleData() {
 	People = append(People, &Person{Key: makeKey("Person"), Name: "Chris Barnes", Portfolio: r2, WorkEmail: e3, ResearchAreas: []*Concept{c1, c3}})
 
 	
-	award1 := NewAward("Bachelors", "BA in Mathematics")
+	award1,_ := NewAward("Bachelors", "BA in Mathematics")
 	award1.Awardee = People[0]
 	award1.AwardingOrganization = o2
 	award1.AwardDate = d6
-	award2 := NewAward("Bachelors", "BA in Economics")
+	award2,_ := NewAward("Bachelors", "BA in Economics")
 	award2.Awardee = People[0]
 	award2.AwardingOrganization = o2
 	award2.AwardDate = d6
-	award3 := NewAward("Masters", "Masters in Statistics")
+	award3,_ := NewAward("Masters", "Masters in Statistics")
 	award3.Awardee = People[0]
 	award3.AwardingOrganization = o1
 	award3.AwardDate = d7
-	award4 := NewAward("PhD", "PhD, Statistics")
+	award4,_ := NewAward("PhD", "PhD, Statistics")
 	award4.Awardee = People[0]
 	award4.AwardingOrganization = o1
 	award4.AwardDate = d8
 	Awards = []*Award{award1,award2,award3,award4}
 	
-	gr1 := NewResearchGrant("INVEST: The International Verapamil/Trandolapril Study")
+	gr1,_ := NewResearchGrant("INVEST: The International Verapamil/Trandolapril Study")
 	gr1.setAmount(37000000)
-	gr2 := NewResearchGrant("Project Care: Cocaine Abuse in the Rural Environment")
-	gr3 := NewResearchGrant("VIVO: Enabling National Networking of Scientists")
+	gr2,_ := NewResearchGrant("Project Care: Cocaine Abuse in the Rural Environment")
+	gr3,_ := NewResearchGrant("VIVO: Enabling National Networking of Scientists")
 	gr3.setAmount(10800000)
 	Grants = []*Grant{gr1,gr2,gr3}
 	
@@ -166,10 +168,10 @@ func SampleData() {
 	r2.Person = People[1]
 	r2.Positions = []*Position{po5}
 	
-	ev1 := NewConference("2nd Annual VIVO Conference")
+	ev1,_ := NewConference("2nd Annual VIVO Conference")
 	ev1.Location = l2
 	ev1.Attendees = []*Person{People[0],People[1]}
-	ev2 := NewMeeting("Board Meeting")
+	ev2,_ := NewMeeting("Board Meeting")
 	ev2.Organizer = o7
 	ev2.StartDate = d11
 	Events = []*Event{ev1,ev2}

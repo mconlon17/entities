@@ -1,9 +1,7 @@
-// DataGraph
+package entities
 
 // TODO: Calculate dimensions from image
 // TODO: Hide height and width. Create getters
-
-package entities
 
 import (
 	"fmt"

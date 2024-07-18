@@ -1,7 +1,5 @@
 package entities
 
-// TODO Fix date d9 and date d11 -- these did not get written out properly
-
 import (
 	"fmt"
 	"time"
@@ -32,8 +30,12 @@ func NewYear(d string) (*Date, error) {
 	p.Key = makeKey("Date")
 	p.DateType = "Year"
 	date, err := time.Parse("2006",d)
-	p.UTC = date
-	return p, err
+	if err != nil {
+		return nil, err
+	} else {
+		p.UTC = date
+		return p, nil
+	}
 }
 
 func NewYearMonth(d string) (*Date, error) {
@@ -41,17 +43,25 @@ func NewYearMonth(d string) (*Date, error) {
 	p.Key = makeKey("Date")
 	p.DateType = "YearMonth"
 	date, err := time.Parse("2006-01",d)
-	p.UTC = date
-	return p, err
+	if err != nil {
+		return nil, err
+	} else {
+		p.UTC = date
+		return p, nil
+	}
 }
 
 func NewDate(d string)(*Date, error) {
 	p := new(Date)
 	p.Key = makeKey("Date")
 	p.DateType = "YearMonthDay"
-	date, err := time.Parse("2006-01-01",d)
-	p.UTC = date
-	return p, err
+	date, err := time.Parse("2006-02-05",d)
+	if err != nil {
+		return nil, err
+	} else {
+		p.UTC = date
+		return p, nil
+	}
 }
 
 func NewDateTime(d string)(*Date, error) {
@@ -59,8 +69,12 @@ func NewDateTime(d string)(*Date, error) {
 	p.Key = makeKey("Date")
 	p.DateType = "YearMonthDayHourMinute"
 	date, err := time.Parse(time.DateTime,d) // yyyy-mm-dd hh:mm:ss
-	p.UTC = date
-	return p, err
+	if err != nil {
+		return nil, err
+	} else {
+		p.UTC = date
+		return p, nil
+	}
 }
 
 func (a *Date) Triples () [][3]string {

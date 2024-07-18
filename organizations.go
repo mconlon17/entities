@@ -122,6 +122,7 @@ func AddOrganizationFact(a []string) {
 	case "Resource":
 		key.s = a[2]
 		j := FindResourceKey(key)
+		fmt.Println(j,key,a)
 		Organizations[i].Resources = append(Organizations[i].Resources,Resources[j])	
 	}
 }

@@ -255,12 +255,15 @@ func LoadEntities(n string) {
     // First Pass -- extract keys and text
     
    	for i,v := range lines {
-   		t = append(t,r.FindStringSubmatch(v)[1:])
-   		if t[i][2][0:1] == `"` {
-   		   	t[i][2] = t[i][2][1:len(t[i][2])-1]
-   		} else {
-   		   	t[i][2] = r2.FindStringSubmatch(t[i][2])[0]
-   		}
+   		u := r.FindStringSubmatch(v)
+   		if len(u)== 4 {
+			t = append(t,u[1:])
+			if t[i][2][0:1] == `"` {
+				t[i][2] = t[i][2][1:len(t[i][2])-1]
+			} else {
+				t[i][2] = r2.FindStringSubmatch(t[i][2])[0]
+			}
+		}
    	}
    	
    	// Second Pass -- create all entities and KeyMap
@@ -290,8 +293,8 @@ func WriteTriples(f *os.File, triples [][3]string) {
 	}
 }
 
-func SaveEntities() {
-    f, err := os.Create("triples.nt")
+func SaveEntities(n string) {
+    f, err := os.Create(n)
     if err != nil {
         log.Fatal(err)
     }
