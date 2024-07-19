@@ -55,7 +55,7 @@ func NewDate(d string)(*Date, error) {
 	p := new(Date)
 	p.Key = makeKey("Date")
 	p.DateType = "YearMonthDay"
-	date, err := time.Parse("2006-02-05",d)
+	date, err := time.Parse(time.DateOnly,d)
 	if err != nil {
 		return nil, err
 	} else {

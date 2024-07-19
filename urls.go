@@ -24,7 +24,6 @@ func NewURL(n string, url string) (*URL,error) {
 	p.Key = makeKey("URL")
 	p.Name = n
 	u := r7.FindStringSubmatch(url)
-	fmt.Println(url,u)
 	if len(u) == 2 {
 		p.URLText = url
 		return p,nil

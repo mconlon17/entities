@@ -6,7 +6,7 @@ import (
 
 var _ = fmt.Println // remove after test	
 
-func SampleData() {
+func SampleEntities() {
 	u1, _ := NewURL("Orcid","https://orcid.org/0000-0002-1304-8447")
 	URLs =[]*URL{u1}
 	
@@ -83,10 +83,10 @@ func SampleData() {
 	o9, _ := NewOrganization("Professional", "American Statistical Association")
 	Organizations = []*Organization{o1,o2,o3,o4,o5,o6,o7,o8,o9}
 	
-	v1 := NewJournal("New England Journal of Medicine")
-	v2 := NewJournal("Journal of the American Medical Informatics Association")
+	v1, _ := NewJournal("New England Journal of Medicine")
+	v2, _ := NewJournal("Journal of the American Medical Informatics Association")
 	v2.Publisher = o5
-	v3 := NewJournal("Clinical and Translational Science")
+	v3, _ := NewJournal("Clinical and Translational Science")
 	v3.Publisher = o3
 	Venues = []*Venue{v1,v2,v3}
 	
@@ -102,14 +102,12 @@ func SampleData() {
 	pub,_ := NewPhDThesis("M-estimation in the Linear Model")
 	Publications = append(Publications, pub)
 	
-	
 	People = append(People, &Person{Key: makeKey("Person"), Name: "Michael Conlon", Orcid: u1, HomePhone: p1, HomeAddress: a1, BirthDate: d1,
 		HomeEmail: e1, WorkEmail: e2, Portfolio: r1, ResearchAreas: []*Concept{c1, c2}})
 	People = append(People, &Person{Key: makeKey("Person"), Name: "Chris Barnes", Portfolio: r2, WorkEmail: e3, ResearchAreas: []*Concept{c1, c3}})
 	p, _ := NewPerson("Deborah Conlon")
 	People = append(People, p)
 
-	
 	award1,_ := NewAward("Bachelors", "BA in Mathematics")
 	award1.Awardee = People[0]
 	award1.AwardingOrganization = o2

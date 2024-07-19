@@ -13,10 +13,11 @@ func makeAwardTypeSet() map[string]struct{} {
 	a["Masters"] = struct{}{}
 	a["Bachelors"] = struct{}{}
 	a["Associate"] = struct{}{}
-	a["Honor Society"] = struct{}{}
-	a["Teaching Award"] = struct{}{}
-	a["Service Award"] = struct{}{}
-	a["Research Award"] = struct{}{}
+	a["HonorSociety"] = struct{}{}
+	a["TeachingAward"] = struct{}{}
+	a["ServiceAward"] = struct{}{}
+	a["ResearchAward"] = struct{}{}
+	a["SportsAward"] = struct{}{}
 	return a
 }
 

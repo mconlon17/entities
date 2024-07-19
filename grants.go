@@ -10,10 +10,10 @@ var _ = fmt.Println // remove after test
 	
 func makeGrantTypeSet() map[string]struct{} {
 	a := map[string]struct{}{}
-	a["Research Grant"] = struct{}{}
-	a["Teaching Grant"] = struct{}{}
-	a["Service Grant"] = struct{}{}
-	a["Unrestricted Grant"] = struct{}{}
+	a["ResearchGrant"] = struct{}{}
+	a["TeachingGrant"] = struct{}{}
+	a["ServiceGrant"] = struct{}{}
+	a["UnrestrictedGrant"] = struct{}{}
 	return a
 }
 
@@ -43,6 +43,10 @@ func (a *Grant) setAmount(n float64) {
 	}
 }
 
+func (a *Grant) getAmount(n float64) float64 {
+	return a.amount
+}
+
 func NewGrant(ty string, ti string) (*Grant, error) {
 	p := new(Grant)
 	p.Key = makeKey("Grant")
@@ -56,10 +60,10 @@ func NewGrant(ty string, ti string) (*Grant, error) {
 	return p, nil
 }
 
-func NewResearchGrant(n string) (*Grant,error) {return NewGrant("Research Grant", n)}
-func NewTeachingGrant(n string) (*Grant,error) {return NewGrant("Teaching Grant", n)}
-func NewServiceGrant(n string) (*Grant,error) {return NewGrant("Service Grant", n)}
-func NewUnrestrictedGrant(n string) (*Grant,error) {return NewGrant("Unrestricted Grant", n)}
+func NewResearchGrant(n string) (*Grant,error) {return NewGrant("ResearchGrant", n)}
+func NewTeachingGrant(n string) (*Grant,error) {return NewGrant("TeachingGrant", n)}
+func NewServiceGrant(n string) (*Grant,error) {return NewGrant("ServiceGrant", n)}
+func NewUnrestrictedGrant(n string) (*Grant,error) {return NewGrant("UnrestrictedGrant", n)}
 
 func (a *Grant) Triples () [][3]string {
 	var t [][3]string
@@ -70,7 +74,7 @@ func (a *Grant) Triples () [][3]string {
 	if (*a).AwardingOrganization != nil {t = append(t, makeTriple(Triple{(*a).Key,"hasAwardingOrganization","",(*a.AwardingOrganization).Key}))}
 	if (*a).StartDate != nil {t = append(t, makeTriple(Triple{(*a).Key,"hasStartDate","",(*a.StartDate).Key}))}
 	if (*a).EndDate != nil {t = append(t, makeTriple(Triple{(*a).Key,"hasEndDate","",(*a.EndDate).Key}))}
-	if (*a).amount != 0.0 { t = append(t, makeTriple(Triple{(*a).Key,"hasamount",strconv.FormatFloat((*a).amount, 'f', -1, 64),nil}))}
+	if (*a).amount != 0.0 { t = append(t, makeTriple(Triple{(*a).Key,"hasAmount",strconv.FormatFloat((*a).amount, 'f', -1, 64),nil}))}
 	for _,cptr := range (*a).PIs {
 		t = append(t, makeTriple(Triple{(*a).Key,"hasPI","",cptr.Key}))
 	}
@@ -117,7 +121,7 @@ func AddGrantFact(a []string) {
 		key.s = a[2]
 		j := FindDateKey(key)
 		Grants[i].EndDate = Dates[j]
-	case "amount":
+	case "Amount":
 		f,_ := strconv.ParseFloat(a[2], 64)
 		Grants[i].setAmount(f)
 	case "PI":

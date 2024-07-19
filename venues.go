@@ -24,22 +24,22 @@ type Venue struct {
 	Publisher *Organization
 }
 
-func NewVenue(t string, n string) *Venue {
+func NewVenue(t string, n string) (*Venue,error) {
 	p := new(Venue)
 	p.Key = makeKey("Venue")
 	_,ok := VenueTypeSet[t]
 	if !ok {
-		err := errors.New("Unknown venue type: "+t)
-		fmt.Println(err)
+		err := errors.New("Unknown venue type: " + t)
+		return nil, err
 	}
 	p.VenueType = t
 	p.Name = n
-	return p
+	return p, nil
 }
 
-func NewJournal(n string) *Venue {return NewVenue("Journal", n)}
-func NewMagazine(n string) *Venue {return NewVenue("Magazine", n)}
-func NewNewsletter(n string) *Venue {return NewVenue("Newsletter", n)}
+func NewJournal(n string) (*Venue, error) {return NewVenue("Journal", n)}
+func NewMagazine(n string) (*Venue, error) {return NewVenue("Magazine", n)}
+func NewNewsletter(n string) (*Venue, error) {return NewVenue("Newsletter", n)}
 
 func (a *Venue) Triples () [][3]string {
 	var t [][3]string
