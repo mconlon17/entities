@@ -9,10 +9,11 @@ var _ = fmt.Println // remove after test
 
 func makeRelationshipTypeSet() map[string]struct{} {
 	a := map[string]struct{}{}
-	a["Mentor Of"] = struct{}{}
-	a["Parent Of"] = struct{}{}
 	a["Friend"] = struct{}{}
+	a["Mentor"] = struct{}{}
+	a["Parent"] = struct{}{}
 	a["Spouse"] = struct{}{}
+	a["Supervisor"] = struct{}{}
 	return a
 }
 
@@ -27,19 +28,25 @@ type Relationship struct {
 	EndDate *Date
 }
 
-func NewRelationship(t string, pa *Person, pb *Person) *Relationship {
+func NewRelationship(t string, pa *Person, pb *Person) (*Relationship,error) {
 	p := new(Relationship)
 	p.Key = makeKey("Relationship")
 	_,ok := RelationshipTypeSet[t]
 	if !ok {
 		err := errors.New("Unknown relationship type: "+t)
-		fmt.Println(err)
+		return nil,err
 	}
 	p.RelationshipType = t
 	p.PersonA = pa
 	p.PersonB = pb
-	return p
+	return p, nil
 }
+
+func NewFriend(pa *Person, pb *Person)     (*Relationship,error) {return NewRelationship("Friend", pa, pb)}
+func NewMentor(pa *Person, pb *Person)     (*Relationship,error) {return NewRelationship("Mentor", pa, pb)}
+func NewParent(pa *Person, pb *Person)     (*Relationship,error) {return NewRelationship("Parent", pa, pb)}
+func NewSpouse(pa *Person, pb *Person)     (*Relationship,error) {return NewRelationship("Spouse", pa, pb)}
+func NewSupervisor(pa *Person, pb *Person) (*Relationship,error) {return NewRelationship("Supervisor", pa, pb)}
 
 func (a *Relationship) Triples () [][3]string {
 	var t [][3]string

@@ -1,24 +1,30 @@
 package entities
 
-// TODO Add regex checking to phone numbers
-
-// 	^[01]?[- .]?(\([2-9]\d{2}\)|[2-9]\d{2})[- .]?\d{3}[- .]?\d{4}$
 import (
+	"errors"
 	"fmt"
+	"regexp"
 )
 	
 var _ = fmt.Println // remove after test
+var r6 = regexp.MustCompile(`^(?P<Num>[2-9]\d{2}\.[2-9]\d{2}\.\d{4})$`)
 
 type PhoneNumber struct {
 	Key *Key
 	PhoneNumberText string
 }
 
-func NewPhoneNumber(e string) *PhoneNumber {
+func NewPhoneNumber(e string) (*PhoneNumber,error) {
 	p := new(PhoneNumber)
 	p.Key = makeKey("PhoneNumber")
-	p.PhoneNumberText = e
-	return p
+	u := r6.FindStringSubmatch(e)
+	if len(u) == 2 {
+		p.PhoneNumberText = e
+		return p,nil
+	} else {
+		err := errors.New("Invalid phone number: " + e)
+		return nil,err
+	}
 }
 
 func (a *PhoneNumber) Triples () [][3]string {

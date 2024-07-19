@@ -1,7 +1,5 @@
 package entities
 
-// TODO Keep track of keys and prevent duplicates
-
 import (
 	"fmt"
 	"log"
@@ -245,8 +243,8 @@ func AddEntityFact(a []string) {
 
 func LoadEntities(n string) {
 	EmptyLists()
-	r := regexp.MustCompile(`\/(?P<Subj>[A-Z-a-z0-9]{6,6})> <.*has(?P<Pred>[A-Za-z]*)> (?P<Obj>.*)$`)
-	r2 := regexp.MustCompile(`(?P<ObjURL>[A-Z-a-z0-9]{6,6})`)
+	r3 := regexp.MustCompile(`\/(?P<Subj>[A-Z-a-z0-9]{6,6})> <.*has(?P<Pred>[A-Za-z]*)> (?P<Obj>.*)$`)
+	r4 := regexp.MustCompile(`(?P<ObjURL>[A-Z-a-z0-9]{6,6})`)
 	var t [][]string
 	dat,err := os.ReadFile(n)
 	if err != nil { log.Fatal(err) }
@@ -255,13 +253,13 @@ func LoadEntities(n string) {
     // First Pass -- extract keys and text
     
    	for i,v := range lines {
-   		u := r.FindStringSubmatch(v)
+   		u := r3.FindStringSubmatch(v)
    		if len(u)== 4 {
 			t = append(t,u[1:])
 			if t[i][2][0:1] == `"` {
 				t[i][2] = t[i][2][1:len(t[i][2])-1]
 			} else {
-				t[i][2] = r2.FindStringSubmatch(t[i][2])[0]
+				t[i][2] = r4.FindStringSubmatch(t[i][2])[0]
 			}
 		}
    	}

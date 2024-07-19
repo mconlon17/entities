@@ -1,13 +1,15 @@
 package entities
 
-// TODO regex for PostalCode
-// ^(\d{5}-\d{4}|\d{5}|\d{9})$|^([a-zA-Z]\d[a-zA-Z] \d[a-zA-Z]\d)$
-
 import (
+	"errors"
 	"fmt"
+	"regexp"
 )
 	
 var _ = fmt.Println // remove after test
+
+var r1 = regexp.MustCompile(`^(?P<Zip>[0-9]{5,5})$`)
+
 	
 type Address struct {
 	Key *Key
@@ -16,13 +18,19 @@ type Address struct {
 	PostalCode string
 }
 
-func NewAddress(a string, l *Location, c string) *Address {
+func NewAddress(a string, l *Location, c string) (*Address,error) {
 	p := new(Address)
 	p.Key = makeKey("Address")
 	p.AddressLine = a
 	p.Location = l
-	p.PostalCode = c
-	return p
+	u := r1.FindStringSubmatch(c)
+	if len(u) == 2 {
+		p.PostalCode = c
+		return p,nil
+	} else {
+		err := errors.New("Invalid postal code: " + c)
+		return nil,err
+	}
 }
 
 func (a *Address) Triples () [][3]string {

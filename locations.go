@@ -31,24 +31,24 @@ type Location struct {
 	Inside []*Location	
 }
 
-func NewLocation(t string, n string) *Location {
+func NewLocation(t string, n string) (*Location,error) {
 	p := new(Location)
 	p.Key = makeKey("Location")
 	_,ok := LocationTypeSet[t]
 	if !ok {
-		err := errors.New("Unknown location type: "+t)
-		fmt.Println(err)
+		err := errors.New("Unknown location type: " + t)
+		return nil, err
 	}
 	p.LocationType = t
 	p.Name = n
-	return p
+	return p, nil
 }
 
-func NewBuilding(n string) *Location {return NewLocation("Building", n)}
-func NewCity(n string) *Location {return NewLocation("City", n)}
-func NewCounty(n string) *Location {return NewLocation("County", n)}
-func NewState(n string) *Location {return NewLocation("State", n)}
-func NewCountry(n string) *Location {return NewLocation("Country", n)}
+func NewBuilding(n string) (*Location,error) {return NewLocation("Building", n)}
+func NewCity(n string)  (*Location,error) {return NewLocation("City", n)}
+func NewCounty(n string)  (*Location,error) {return NewLocation("County", n)}
+func NewState(n string)  (*Location,error) {return NewLocation("State", n)}
+func NewCountry(n string)  (*Location,error) {return NewLocation("Country", n)}
 
 func (a *Location) Triples () [][3]string {
 	var t [][3]string

@@ -41,34 +41,34 @@ type Organization struct {
 	Resources []*Resource
 }
 
-func NewOrganization(t string, n string) *Organization {
+func NewOrganization(t string, n string) (*Organization,error) {
 	p := new(Organization)
 	p.Key = makeKey("Organization")
 	_,ok := OrganizationTypeSet[t]
 	if !ok {
 		err := errors.New("Unknown organization type: "+t)
-		fmt.Println(err)
+		return nil, err
 	}
 	p.OrganizationType = t
 	p.Name = n
-	return p
+	return p, nil
 }
 
-func NewCompany(n string) *Organization {return NewOrganization("Company", n)}
-func NewUniversity(n string) *Organization {return NewOrganization("University", n)}
-func NewCollege(n string) *Organization {return NewOrganization("College", n)}
-func NewDepartment(n string) *Organization {return NewOrganization("Department", n)}
-func NewOffice(n string) *Organization {return NewOrganization("Office", n)}
-func NewNonprofit(n string) *Organization {return NewOrganization("Nonprofit", n)}
-func NewInstitute(n string) *Organization {return NewOrganization("Research", n)}
-func NewSchool(n string) *Organization {return NewOrganization("Education", n)}
-func NewChurch(n string) *Organization {return NewOrganization("Religious", n)}
-func NewMilitary(n string) *Organization {return NewOrganization("Military", n)}
-func NewGovernanment(n string) *Organization {return NewOrganization("Government", n)}
-func NewAssociation(n string) *Organization {return NewOrganization("Professional", n)}
-func NewGovernance(n string) *Organization {return NewOrganization("Governance", n)}
-func NewClub(n string) *Organization {return NewOrganization("Club", n)}
-func NewNGO(n string) *Organization {return NewOrganization("NGO", n)}
+func NewCompany(n string) (*Organization,error) {return NewOrganization("Company", n)}
+func NewUniversity(n string) (*Organization,error) {return NewOrganization("University", n)}
+func NewCollege(n string) (*Organization,error) {return NewOrganization("College", n)}
+func NewDepartment(n string) (*Organization,error) {return NewOrganization("Department", n)}
+func NewOffice(n string) (*Organization,error) {return NewOrganization("Office", n)}
+func NewNonprofit(n string) (*Organization,error) {return NewOrganization("Nonprofit", n)}
+func NewInstitute(n string) (*Organization,error) {return NewOrganization("Research", n)}
+func NewSchool(n string) (*Organization,error) {return NewOrganization("Education", n)}
+func NewChurch(n string) (*Organization,error) {return NewOrganization("Religious", n)}
+func NewMilitary(n string) (*Organization,error) {return NewOrganization("Military", n)}
+func NewGovernanment(n string) (*Organization,error) {return NewOrganization("Government", n)}
+func NewAssociation(n string) (*Organization,error) {return NewOrganization("Professional", n)}
+func NewGovernance(n string) (*Organization,error) {return NewOrganization("Governance", n)}
+func NewClub(n string) (*Organization,error) {return NewOrganization("Club", n)}
+func NewNGO(n string) (*Organization,error) {return NewOrganization("NGO", n)}
 
 func (a *Organization) Triples () [][3]string {
 	var t [][3]string

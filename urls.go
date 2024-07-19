@@ -1,15 +1,15 @@
 package entities
 
-// TODO URL regex checking
-// TODO URL existence checking (whoa!)
-
-
-// ^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$
+// TODO URL existence checking
+ 
 import (
+	"errors"
 	"fmt"
+	"regexp"
 )
 	
 var _ = fmt.Println // remove after test
+var r7 = regexp.MustCompile(`^(?P<URL>[A-Za-z0-9\:\/\/\.\-]*)$`)
 
 // *** Entities and their Methods ***
 
@@ -19,12 +19,19 @@ type URL struct {
 	URLText string
 }
 
-func NewURL(n string, u string) *URL {
+func NewURL(n string, url string) (*URL,error) {
 	p := new(URL)
 	p.Key = makeKey("URL")
 	p.Name = n
-	p.URLText = u
-	return p
+	u := r7.FindStringSubmatch(url)
+	fmt.Println(url,u)
+	if len(u) == 2 {
+		p.URLText = url
+		return p,nil
+	} else {
+		err := errors.New("Invalid URL: " + url)
+		return nil,err
+	}
 }
 
 func (a *URL) Triples () [][3]string {

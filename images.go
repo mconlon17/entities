@@ -1,10 +1,11 @@
 package entities
 
-// TODO: Calculate dimensions from image
-// TODO: Hide height and width. Create getters
-
 import (
+	"errors"
 	"fmt"
+	"image"
+	_ "image/jpeg"
+	"os"
 	"strconv"
 )
 	
@@ -15,15 +16,36 @@ type Image struct {
 	FileName string
 	Caption string
 	AltText string
-	Height int
-	Width int
+	height int
+	width int
 }
 
-func NewImage(n string) *Image {
+func NewImage(n string) (*Image,error) {
 	p := new(Image)
 	p.Key = makeKey("Image")
-	p.FileName = n
-	return p
+
+	if reader, err := os.Open(n); err == nil {
+		defer reader.Close()
+		im, _, err := image.DecodeConfig(reader)
+		if err != nil {
+			return nil, err
+		}
+		p.width = im.Width
+		p.height = im.Height
+		p.FileName = n
+		return p, nil
+	} else {
+		err := errors.New("Can't open " + n)
+		return nil, err
+	}
+}
+
+func (a *Image) getHeight() int {
+	return a.height
+}
+
+func (a *Image) getWidth() int {
+	return a.width
 }
 
 func (a *Image) Triples () [][3]string {
@@ -32,8 +54,8 @@ func (a *Image) Triples () [][3]string {
 	t = append(t, makeTriple(Triple{(*a).Key,"hasFileName",(*a).FileName,nil}))
 	if (*a).Caption != "" {t = append(t, makeTriple(Triple{(*a).Key,"hasCaption",(*a).Caption,nil}))}
 	if (*a).AltText != "" {t = append(t, makeTriple(Triple{(*a).Key,"hasAltText",(*a).AltText,nil}))}
-	if (*a).Height != 0 {t = append(t, makeTriple(Triple{(*a).Key,"hasHeight",strconv.Itoa((*a).Height),nil}))}
-	if (*a).Width != 0 {t = append(t, makeTriple(Triple{(*a).Key,"hasWidth",strconv.Itoa((*a).Width),nil}))}
+	if (*a).height != 0 {t = append(t, makeTriple(Triple{(*a).Key,"hasHeight",strconv.Itoa((*a).height),nil}))}
+	if (*a).width != 0 {t = append(t, makeTriple(Triple{(*a).Key,"hasWidth",strconv.Itoa((*a).width),nil}))}
 	return t
 }
 
@@ -59,10 +81,10 @@ func AddImageFact(a []string) {
 		Images[i].AltText = a[2]
 	case "Height":
 		n,_ := strconv.Atoi(a[2])
-		Images[i].Height = n
+		Images[i].height = n
 	case "Width":
 		n,_ := strconv.Atoi(a[2])
-		Images[i].Width = n
+		Images[i].width = n
 	}
 }
 

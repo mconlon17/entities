@@ -1,4 +1,4 @@
-# Entities for data management in GO
+# Entities for data management in Go
 
 **This is early work**
 

@@ -14,6 +14,7 @@ func makePositionTypeSet() map[string]struct{} {
 	a["Director"] = struct{}{}
 	a["Volunteer"] = struct{}{}
 	a["Member"] = struct{}{}
+	a["Retired"] = struct{}{}
 	return a
 }
 
@@ -31,24 +32,25 @@ type Position struct {
 	EndDate *Date
 }
 
-func NewPosition(t, e string) *Position {
+func NewPosition(t, e string) (*Position,error) {
 	p := new(Position)
 	p.Key = makeKey("Position")
 	_,ok := PositionTypeSet[t]
 	if !ok {
-		err := errors.New("Unknown position type: "+t)
-		fmt.Println(err)
+		err := errors.New("Unknown position type: " + t)
+		return nil,err
 	}
 	p.PositionType = t
 	p.Title = e
-	return p
+	return p, nil
 }
 
-func NewFaculty(n string) *Position {return NewPosition("Faculty", n)}
-func NewStaff(n string) *Position {return NewPosition("Staff", n)}
-func NewDirector(n string) *Position {return NewPosition("Director", n)}
-func NewVolunteer(n string) *Position {return NewPosition("Volunteer", n)}
-func NewMember(n string) *Position {return NewPosition("Member", n)}
+func NewFaculty(n string) (*Position,error) {return NewPosition("Faculty", n)}
+func NewStaff(n string) (*Position,error) {return NewPosition("Staff", n)}
+func NewDirector(n string) (*Position,error) {return NewPosition("Director", n)}
+func NewVolunteer(n string) (*Position,error) {return NewPosition("Volunteer", n)}
+func NewMember(n string) (*Position,error) {return NewPosition("Member", n)}
+func NewRetired(n string) (*Position,error) {return NewPosition("Retired", n)}
 
 func (a *Position) Triples () [][3]string {
 	var t [][3]string

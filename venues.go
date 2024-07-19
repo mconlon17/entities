@@ -12,7 +12,6 @@ func makeVenueTypeSet() map[string]struct{} {
 	a["Journal"] = struct{}{}
 	a["Magazine"] = struct{}{}
 	a["Newsletter"] = struct{}{}
-	a["Book"] = struct{}{}
 	return a
 }
 
@@ -41,7 +40,6 @@ func NewVenue(t string, n string) *Venue {
 func NewJournal(n string) *Venue {return NewVenue("Journal", n)}
 func NewMagazine(n string) *Venue {return NewVenue("Magazine", n)}
 func NewNewsletter(n string) *Venue {return NewVenue("Newsletter", n)}
-func NewBook(n string) *Venue {return NewVenue("Book", n)}
 
 func (a *Venue) Triples () [][3]string {
 	var t [][3]string

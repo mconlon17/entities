@@ -7,7 +7,7 @@ import(
 )
 	
 var _ = fmt.Println // remove after test
-var r = regexp.MustCompile(`^(?P<Name>[a-zA-Z0-9_\-\.]+)@(?P<Address>[a-zA-Z0-9_\-\.]+)\.(?P<Domain>[a-zA-Z]{2,5})$`)
+var r2 = regexp.MustCompile(`^(?P<Name>[a-zA-Z0-9_\-\.]+)@(?P<Address>[a-zA-Z0-9_\-\.]+)\.(?P<Domain>[a-zA-Z]{2,5})$`)
 	
 type EmailAddress struct {
 	Key *Key
@@ -17,7 +17,7 @@ type EmailAddress struct {
 func NewEmailAddress(e string) (*EmailAddress, error) {
 	p := new(EmailAddress)
 	p.Key = makeKey("EmailAddress")
-	u := r.FindStringSubmatch(e)
+	u := r2.FindStringSubmatch(e)
 	if len(u) == 4 {
 		p.EmailAddressText = e
 		return p,nil

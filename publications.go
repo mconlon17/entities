@@ -16,7 +16,6 @@ func makePublicationTypeSet() map[string]struct{} {
 	a["Editorial"] = struct{}{}
 	a["Book"] = struct{}{}
 	a["Booklet"] = struct{}{}
-    a["Conference"] = struct{}{}
     a["InBook"] = struct{}{}
     a["InCollection"] = struct{}{}
     a["Manual"] = struct{}{}
@@ -46,18 +45,34 @@ type Publication struct {
 	Keywords []*Concept
 }
 
-func NewPublication(ty string, ti string) *Publication {
+func NewPublication(ty string, ti string) (*Publication,error) {
 	p := new(Publication)
 	p.Key = makeKey("Publication")
 	_,ok := PublicationTypeSet[ty]
 	if !ok {
 		err := errors.New("Unknown publication type: "+ty)
-		fmt.Println(err)
+		return nil,err
 	}
 	p.PublicationType = ty
 	p.Title = ti
-	return p
+	return p, nil
 }
+
+func NewAbstract(n string)     (*Publication,error) {return NewPublication("Abstract", n)}
+func NewArticle(n string)      (*Publication,error) {return NewPublication("Article", n)}
+func NewEditorial(n string)    (*Publication,error) {return NewPublication("Editorial", n)}
+func NewBook(n string)         (*Publication,error) {return NewPublication("Book", n)}
+func NewBooklet(n string)      (*Publication,error) {return NewPublication("Booklet", n)}
+func NewInBook(n string)       (*Publication,error) {return NewPublication("InBook", n)}
+func NewInCollection(n string) (*Publication,error) {return NewPublication("InCollection", n)}
+func NewManual(n string)       (*Publication,error) {return NewPublication("Manual", n)}
+func NewMasterThesis(n string) (*Publication,error) {return NewPublication("MasterThesis", n)}
+func NewPhDThesis(n string)    (*Publication,error) {return NewPublication("PhDThesis", n)}
+func NewProceedings(n string)  (*Publication,error) {return NewPublication("Proceedings", n)}
+func NewTechReport(n string)   (*Publication,error) {return NewPublication("TechReport", n)}
+func NewUnpublished(n string)  (*Publication,error) {return NewPublication("Unpublished", n)}
+func NewDataset(n string)      (*Publication,error) {return NewPublication("Dataset", n)}
+func NewPresentation(n string) (*Publication,error) {return NewPublication("Presentation", n)}
 
 func (a *Publication) Triples () [][3]string {
 	var t [][3]string

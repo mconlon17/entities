@@ -25,21 +25,21 @@ type Resource struct {
 	Admin *Organization
 }
 
-func NewResource(t string, n string) *Resource {
+func NewResource(t string, n string) (*Resource,error) {
 	p := new(Resource)
 	p.Key = makeKey("Resource")
 	_,ok := ResourceTypeSet[t]
 	if !ok {
 		err := errors.New("Unknown resource type: "+t)
-		fmt.Println(err)
+		return nil, err
 	}
 	p.ResourceType = t
 	p.Name = n
-	return p
+	return p, nil
 }
 
-func NewEquipment(n string) *Resource {return NewResource("Equipment", n)}
-func NewService(n string) *Resource {return NewResource("Service", n)}
+func NewEquipment(n string) (*Resource,error) {return NewResource("Equipment", n)}
+func NewService(n string) (*Resource,error) {return NewResource("Service", n)}
 
 func (a *Resource) Triples () [][3]string {
 	var t [][3]string

@@ -1,13 +1,13 @@
 package entities
 
-// TODO regex for name
-// ^[a-zA-Z''-'\s]{1,40}$
-
 import (
+	"errors"
 	"fmt"
+	"regexp"
 )
 	
 var _ = fmt.Println // remove after test
+var r5 = regexp.MustCompile(`^(?P<Name>[a-zA-Z''-'\s]{1,40})$`)
 	
 type Person struct {
 	Key *Key
@@ -22,11 +22,17 @@ type Person struct {
 	BirthDate *Date
 }
 
-func NewPerson(n string) *Person {
+func NewPerson(n string) (*Person,error) {
 	p := new(Person)
 	p.Key = makeKey("Person")
-	p.Name = n
-	return p
+	u := r5.FindStringSubmatch(n)
+	if len(u) == 2 {
+		p.Name = n
+		return p,nil
+	} else {
+		err := errors.New("Invalid name: " + n)
+		return nil,err
+	}
 }
 
 func (a *Person) Triples () [][3]string {
