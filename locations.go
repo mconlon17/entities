@@ -3,6 +3,7 @@ package entities
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 	
 var _ = fmt.Println // remove after test
@@ -57,12 +58,32 @@ func (a *Location) Triples () [][3]string {
 	t = append(t, makeTriple(Triple{(*a).Key,"hasName",(*a).Name,nil}))
 	if (*a).Abbreviation != "" {t = append(t, makeTriple(Triple{(*a).Key,"hasAbbreviation",(*a).Abbreviation,nil}))}
 	if (*a).GeoLocation != nil {t = append(t, makeTriple(Triple{(*a).Key,"hasGeoLocation","",(*a.GeoLocation).Key}))}	
-		for _,cptr := range (*a).Contains {
+	for _,cptr := range (*a).Contains {
 		t = append(t, makeTriple(Triple{(*a).Key,"hasContains","",cptr.Key}))
 	}
 	for _,cptr := range (*a).Inside {
 		t = append(t, makeTriple(Triple{(*a).Key,"hasInside","",cptr.Key}))
 	}
+	return t
+}
+
+func (a *Location) Row() []string {
+	var t []string
+	var co []string
+	var in []string
+	t = append(t, a.Key.s)
+	t = append(t, a.LocationType)
+	t = append(t, a.Name)
+	t = append(t, a.Abbreviation)
+	if a.GeoLocation != nil { t=append(t, a.GeoLocation.Key.s)}
+	for _,cptr := range (*a).Contains {
+		co = append(co, cptr.Key.s)
+	}
+	t = append(t,strings.Join(co,","))
+	for _,cptr := range (*a).Inside {
+		in = append(in, cptr.Key.s)
+	}
+	t = append(t,strings.Join(in,","))
 	return t
 }
 

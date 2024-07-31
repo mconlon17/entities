@@ -34,6 +34,13 @@ func (a *EmailAddress) Triples () [][3]string {
 	return t
 }
 
+func (a *EmailAddress) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.EmailAddressText)
+	return t
+}
+
 func FindEmailAddressKey (kf *Key) int {
 	for i,a := range EmailAddresses {
 		if kf.s == a.Key.s {

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 )
 	
 var _ = fmt.Println // remove after test
@@ -84,6 +85,34 @@ func (a *Grant) Triples () [][3]string {
 	for _,cptr := range (*a).Topics {
 		t = append(t, makeTriple(Triple{(*a).Key,"hasTopic","",cptr.Key}))
 	}
+	return t
+}
+
+func (a *Grant) Row() []string {
+	var t []string
+	var pi []string
+	var co []string
+	var to []string
+	t = append(t, a.Key.s)
+	t = append(t, a.GrantType)
+	t = append(t, a.Title)
+	if a.Administrator != nil { t=append(t, a.Administrator.Key.s)}
+	if a.AwardingOrganization != nil { t=append(t, a.AwardingOrganization.Key.s)}
+	if a.StartDate != nil { t=append(t, a.StartDate.Key.s)}
+	if a.EndDate != nil { t=append(t, a.EndDate.Key.s)}
+	if a.amount != 0.0 { t=append(t, strconv.FormatFloat((*a).amount, 'f', -1, 64))}
+	for _,cptr := range (*a).PIs {
+		pi = append(pi, cptr.Key.s)
+	}
+	t = append(t,strings.Join(pi,","))
+	for _,cptr := range (*a).CoIs {
+		co = append(co, cptr.Key.s)
+	}
+	t = append(t,strings.Join(co,","))
+	for _,cptr := range (*a).Topics {
+		to = append(to, cptr.Key.s)
+	}
+	t = append(t,strings.Join(to,","))
 	return t
 }
 

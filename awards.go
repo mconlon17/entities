@@ -55,6 +55,17 @@ func (a *Award) Triples () [][3]string {
 	return t
 }
 
+func (a *Award) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.AwardType)
+	t = append(t, a.Title)
+	if (*a).AwardingOrganization != nil { t=append(t, a.AwardingOrganization.Key.s)}
+	if (*a).Awardee != nil { t=append(t, a.Awardee.Key.s)}
+	if (*a).AwardDate != nil { t=append(t, a.AwardingOrganization.Key.s)}
+	return t
+}
+
 func FindAwardKey (kf *Key) int {
 	for i,a := range Awards {
 		if kf.s == a.Key.s {

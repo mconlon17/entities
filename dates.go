@@ -85,6 +85,14 @@ func (a *Date) Triples () [][3]string {
 	return t
 }
 
+func (a *Date) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.DateType)
+	t = append(t, (a.UTC).Format(time.RFC3339))
+	return t
+}
+
 func FindDateKey (kf *Key) int {
 	for i,a := range Dates {
 		if kf.s == a.Key.s {

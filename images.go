@@ -59,6 +59,17 @@ func (a *Image) Triples () [][3]string {
 	return t
 }
 
+func (a *Image) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.FileName)
+	t = append(t, a.Caption)
+	t = append(t, a.AltText)
+	t = append(t, strconv.Itoa((*a).height))
+	t = append(t, strconv.Itoa((*a).width))
+	return t
+}
+
 func FindImageKey (kf *Key) int {
 	for i,a := range Images {
 		if kf.s == a.Key.s {

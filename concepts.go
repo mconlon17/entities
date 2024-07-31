@@ -29,6 +29,15 @@ func (a *Concept) Triples () [][3]string {
 	return t
 }
 
+func (a *Concept) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.Name)
+	if (*a).Broader != nil { t=append(t, a.Broader.Key.s) }
+	if (*a).Narrower != nil { t=append(t, a.Narrower.Key.s) }
+	return t
+}
+
 func FindConceptKey (kf *Key) int {
 	for i,a := range Concepts {
 		if kf.s == a.Key.s {

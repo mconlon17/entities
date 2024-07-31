@@ -73,6 +73,17 @@ func (a *Course) Triples () [][3]string {
 	return t
 }
 
+func (a *Course) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.CourseType)
+	t = append(t, a.CourseNumber)
+	t = append(t, a.CourseTitle)
+	if a.CourseDescription != "" { t=append(t, a.CourseDescription) }
+	if a.CourseOrganization != nil { t=append(t, a.CourseOrganization.Key.s) }
+	return t
+}
+
 func FindCourseKey (kf *Key) int {
 	for i,a := range Courses {
 		if kf.s == a.Key.s {

@@ -291,6 +291,45 @@ func WriteTriples(f *os.File, triples [][3]string) {
 	}
 }
 
+func WriteRow(f *os.File, row []string) {
+	str := strings.Join(row,"\t")
+	_, err := f.WriteString(str + "\n")
+		if err != nil {
+			log.Fatal(err)
+		}
+}
+
+func SaveTables(n string) {
+    f, err := os.Create(n)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer f.Close()
+    
+    for _,p := range Addresses      { WriteRow(f, p.Row()) }
+    for _,p := range Awards         { WriteRow(f, p.Row()) }
+    for _,p := range Concepts       { WriteRow(f, p.Row()) }
+    for _,p := range Courses        { WriteRow(f, p.Row()) }
+    for _,p := range Dates          { WriteRow(f, p.Row()) }
+    for _,p := range EmailAddresses { WriteRow(f, p.Row()) }
+    for _,p := range Events         { WriteRow(f, p.Row()) }
+    for _,p := range GeoLocations   { WriteRow(f, p.Row()) }
+    for _,p := range Grants         { WriteRow(f, p.Row()) }
+    for _,p := range Images         { WriteRow(f, p.Row()) }
+    for _,p := range Locations      { WriteRow(f, p.Row()) }
+//     for _,p := range Organizations  { WriteRow(f, p.Row()) }
+//     for _,p := range People         { WriteRow(f, p.Row()) }
+//     for _,p := range PhoneNumbers   { WriteRow(f, p.Row()) }
+//     for _,p := range Portfolios     { WriteRow(f, p.Row()) }
+//     for _,p := range Positions      { WriteRow(f, p.Row()) }
+//     for _,p := range Publications   { WriteRow(f, p.Row()) }
+//     for _,p := range Relationships  { WriteRow(f, p.Row()) }
+//     for _,p := range Resources      { WriteRow(f, p.Row()) }
+//     for _,p := range Teachings      { WriteRow(f, p.Row()) }
+//     for _,p := range URLs           { WriteRow(f, p.Row()) }
+//     for _,p := range Venues         { WriteRow(f, p.Row()) }    
+}
+
 func SaveEntities(n string) {
     f, err := os.Create(n)
     if err != nil {

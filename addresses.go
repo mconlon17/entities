@@ -42,6 +42,15 @@ func (a *Address) Triples () [][3]string {
 	return t
 }
 
+func (a *Address) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, a.AddressLine)
+	if (*a).Location != nil { t=append(t, a.Location.Key.s)}
+	if (*a).PostalCode != "" { t=append(t, a.PostalCode)}
+	return t
+}
+
 func FindAddressKey (kf *Key) int {
 	for i,a := range Addresses {
 		if kf.s == a.Key.s {

@@ -63,6 +63,14 @@ func (a *GeoLocation) Triples () [][3]string {
 	return t
 }
 
+func (a *GeoLocation) Row() []string {
+	var t []string
+	t = append(t, a.Key.s)
+	t = append(t, strconv.FormatFloat((*a).latitude, 'f', -1, 64))
+	t = append(t, strconv.FormatFloat((*a).longitude, 'f', -1, 64))
+	return t
+}
+
 func FindGeoLocationKey (kf *Key) int {
 	for i,a := range GeoLocations {
 		if kf.s == a.Key.s {

@@ -3,6 +3,7 @@ package entities
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 	
 var _ = fmt.Println // remove after test
@@ -65,6 +66,28 @@ func (a *Event) Triples () [][3]string {
 	for _,cptr := range (*a).Attendees {
 		t = append(t, makeTriple(Triple{(*a).Key,"hasAttendee","",cptr.Key}))
 	}
+	return t
+}
+
+func (a *Event) Row() []string {
+	var t []string
+	var sp []string
+	var at []string
+	t = append(t, a.Key.s)
+	t = append(t, a.EventType)
+	t = append(t, a.Name)
+	if a.Organizer != nil { t=append(t, a.Organizer.Key.s)}
+	if a.Location != nil { t=append(t, a.Location.Key.s)}
+	if a.StartDate != nil { t=append(t, a.StartDate.Key.s)}
+	if a.EndDate != nil { t=append(t, a.EndDate.Key.s)}
+	for _,cptr := range (*a).Sponsors {
+		sp = append(sp, cptr.Key.s)
+	}
+	t = append(t,strings.Join(sp,","))
+	for _,cptr := range (*a).Attendees {
+		at = append(at, cptr.Key.s)
+	}
+	t = append(t,strings.Join(at,","))
 	return t
 }
 
